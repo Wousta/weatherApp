@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { checkWeather } from '../slices/weatherSlice';
 //TODO: Add styles, handle submit, etc.
 
 const SearchWeather = () => {
