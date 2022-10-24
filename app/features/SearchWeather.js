@@ -18,12 +18,13 @@ const weatherAPIKey = '72576a874b6d2e544c95528c755cbbe4';
 
 const SearchWeather = () => {
   const [text, setText] = useState('');
+  const [result, setResult] = useState('');
   const dispatch = useDispatch();
 
   function handleSumbit() {
     console.log("text: " + text);
     console.log("aaahhhhh: " + store.getState().weather.city)
-    const payload = text.split(', ');
+    const payload = text.split(',');
     getWeather({
       key: weatherAPIKey,
       city: payload[0],
@@ -39,6 +40,8 @@ const SearchWeather = () => {
           icon: data.icon,
         }),
       );
+    }).then(() => {
+      setResult(`${store.getState().weather.temp} degrees and ${store.getState().weather.description}`);
     });
   }
 
@@ -54,7 +57,7 @@ const SearchWeather = () => {
         <Text style={styles.buttonText}>Search</Text>
       </Pressable>
       <Text style={styles.text}>
-          {store.getState().weather.temp} degrees and {store.getState().weather.description}
+          {result}
       </Text>
     </View>
   );
