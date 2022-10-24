@@ -4,7 +4,7 @@ import {getWeather, showWeather} from 'react-native-weather-api';
 const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
-    name: null,
+    city: null,
     country: null,
     temp: null,
     description: null,
@@ -12,23 +12,14 @@ const weatherSlice = createSlice({
   },
   reducers: {
     checkWeather(state, action) {
-        console.log('payload: ' + action.payload);
-      getWeather({
-        key: '72576a874b6d2e544c95528c755cbbe4',
-        city: action.payload[0],
-        country: action.payload[1],
-      }).then(() => {
-        console.log('ayaya');
-        let data = new showWeather();
-        console.log(Math.round(data.temp-273.15) + ' hey');
-        return {
-          name: action.payload[0],
-          country: action.payload[1],
-          temp: Math.round(data.temp-273.15),
-          description: data.description,
-          icon: data.icon,
-        };
-      });
+      const {city, country, temp, description, icon} = action.payload;
+      console.log(`payload: ${city}, ${country}, ${temp}`);
+      state.city = city;
+      state.country = country;
+      state.temp = temp;
+      state.description = description;
+      state.icon = icon;
+      console.log('Que esta pasando');
     },
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,20 +7,40 @@ import {
   onPress,
   StyleSheet,
 } from 'react-native';
-import { useDispatch, getState } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {getWeather, showWeather} from 'react-native-weather-api';
 
-import { checkWeather } from '../slices/weatherSlice';
+import {checkWeather} from '../slices/weatherSlice';
+import store from '../../store';
+
+//https://openweathermap.org/ - API key
+const weatherAPIKey = '72576a874b6d2e544c95528c755cbbe4';
 
 const SearchWeather = () => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
-  function handleSumbit(){
-    console.log(text);
+  function handleSumbit() {
+    console.log("text: " + text);
     const payload = text.split(', ');
-    dispatch(checkWeather(payload));
-    setText('');
-    
+    getWeather({
+      key: weatherAPIKey,
+      city: payload[0],
+      country: payload[1],
+    }).then(() => {
+      console.log('ayaya');
+      const data = new showWeather();
+      console.log(Math.round(data.temp - 273.15) + ' hey');
+      dispatch(
+        checkWeather({
+          city: payload[0],
+          country: payload[1],
+          temp: Math.round(data.temp - 273.15),
+          description: data.description,
+          icon: data.icon,
+        }),
+      );
+    });
   }
 
   return (
@@ -42,7 +62,7 @@ export default SearchWeather;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    margin: 16,
   },
   input: {
     top: 151,

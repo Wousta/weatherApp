@@ -1,12 +1,14 @@
 import {View, StyleSheet, Text} from 'react-native';
 
 import SearchWeather from './components/SearchWeather';
+import ShowWeather from './components/ShowWeather';
 
 const WeatherApp = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Weather App</Text>
       <SearchWeather />
+      <ShowWeather />
     </View>
   );
 };
