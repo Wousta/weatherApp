@@ -1,7 +1,6 @@
 import {View, StyleSheet, Text} from 'react-native';
 
-import SearchWeather from './components/SearchWeather';
-import ShowWeather from './components/ShowWeather';
+import SearchWeather from './features/SearchWeather';
 
 const WeatherApp = () => {
   return (

@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import store from '../../store';
 
 const weatherSlice = createSlice({
   name: 'weather',
