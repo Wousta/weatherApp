@@ -22,15 +22,14 @@ const SearchWeather = () => {
 
   function handleSumbit() {
     console.log("text: " + text);
+    console.log("aaahhhhh: " + store.getState().weather.city)
     const payload = text.split(', ');
     getWeather({
       key: weatherAPIKey,
       city: payload[0],
       country: payload[1],
     }).then(() => {
-      console.log('ayaya');
       const data = new showWeather();
-      console.log(Math.round(data.temp - 273.15) + ' hey');
       dispatch(
         checkWeather({
           city: payload[0],
@@ -54,6 +53,9 @@ const SearchWeather = () => {
       <Pressable style={styles.button} onPress={handleSumbit}>
         <Text style={styles.buttonText}>Search</Text>
       </Pressable>
+      <Text style={styles.text}>
+          {store.getState().weather.temp} degrees and {store.getState().weather.description}
+      </Text>
     </View>
   );
 };
@@ -109,5 +111,17 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     textAlign: 'center',
     color: '#FFFFFF',
+  },
+  text: {
+    width: 341,
+    height: 34,
+    left: 18,
+    top: 100,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 20,
+    lineHeight: 38,
+    color: '#000000',
   },
 });

@@ -8,7 +8,6 @@ const WeatherApp = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Weather App</Text>
       <SearchWeather />
-      <ShowWeather />
     </View>
   );
 };

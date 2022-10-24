@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {getWeather, showWeather} from 'react-native-weather-api';
+
+import store from '../../store';
 
 const weatherSlice = createSlice({
   name: 'weather',
@@ -19,7 +20,6 @@ const weatherSlice = createSlice({
       state.temp = temp;
       state.description = description;
       state.icon = icon;
-      console.log('Que esta pasando');
     },
   },
 });
