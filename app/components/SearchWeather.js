@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,23 +7,38 @@ import {
   onPress,
   StyleSheet,
 } from 'react-native';
+import { useDispatch, getState } from 'react-redux';
 
 import { checkWeather } from '../slices/weatherSlice';
-//TODO: Add styles, handle submit, etc.
 
 const SearchWeather = () => {
+  const [text, setText] = useState('');
+  const dispatch = useDispatch();
+
+  function handleSumbit(){
+    console.log(text);
+    const payload = text.split(', ');
+    dispatch(checkWeather(payload));
+    setText('');
+    
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
         placeholder="e.g.: Lausanne, Switzerland"
+        value={text}
+        onChangeText={setText}
         style={styles.input}
       />
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={handleSumbit}>
         <Text style={styles.buttonText}>Search</Text>
       </Pressable>
     </View>
   );
 };
+
+export default SearchWeather;
 
 const styles = StyleSheet.create({
   container: {
@@ -75,5 +91,3 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
-
-export default SearchWeather;
