@@ -17,14 +17,17 @@ import store from '../../store';
 const weatherAPIKey = '72576a874b6d2e544c95528c755cbbe4';
 
 const SearchWeather = () => {
+  //Text is the input from the user, result is the weather info message
   const [text, setText] = useState('');
   const [result, setResult] = useState('');
   const dispatch = useDispatch();
 
   function handleSumbit() {
-    console.log("text: " + text);
-    console.log("aaahhhhh: " + store.getState().weather.city)
     const payload = text.split(',');
+    if(payload.length != 2){
+      setResult('An error has happened');
+      return;
+    }
     getWeather({
       key: weatherAPIKey,
       city: payload[0],
@@ -56,11 +59,18 @@ const SearchWeather = () => {
       <Pressable style={styles.button} onPress={handleSumbit}>
         <Text style={styles.buttonText}>Search</Text>
       </Pressable>
-      <Text style={styles.text}>
-          {result}
-      </Text>
+      <Text style={styles.text}>{result}</Text>
     </View>
   );
+};
+
+const checkInput = (text) => {
+  if(text.split(',').length != 2){
+    console.log('Invalid input');
+    return(
+      <Text style={styles.text}>An error has happened</Text>
+    );
+  }
 };
 
 export default SearchWeather;

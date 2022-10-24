@@ -13,7 +13,6 @@ const weatherSlice = createSlice({
   reducers: {
     checkWeather(state, action) {
       const {city, country, temp, description, icon} = action.payload;
-      console.log(`payload: ${city}, ${country}, ${temp}`);
       state.city = city;
       state.country = country;
       state.temp = temp;
