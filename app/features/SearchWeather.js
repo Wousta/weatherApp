@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  onPress,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {getWeather, showWeather} from 'react-native-weather-api';
 
@@ -22,30 +15,44 @@ const SearchWeather = () => {
   const [result, setResult] = useState('');
   const dispatch = useDispatch();
 
+  //getWeather, showweather function from react-native-weather-api 
+  //https://www.npmjs.com/package/react-native-weather-api
   function handleSumbit() {
     const payload = text.split(',');
-    if(payload.length != 2){
-      setResult('Please enter a city and country');
+    if (payload.length != 2) {
+      setResult('An error has happened');
       return;
     }
     getWeather({
       key: weatherAPIKey,
       city: payload[0],
       country: payload[1],
-    }).then(() => {
-      const data = new showWeather();
-      dispatch(
-        checkWeather({
-          city: payload[0],
-          country: payload[1],
-          temp: Math.round(data.temp - 273.15),
-          description: data.description,
-          icon: data.icon,
-        }),
-      );
-    }).then(() => {
-      setResult(`${store.getState().weather.temp} degrees and ${store.getState().weather.description}`);
-    });
+    })
+      .then(() => {
+        const data = new showWeather();
+        try {
+          dispatch(
+            checkWeather({
+              city: payload[0],
+              country: payload[1],
+              temp: Math.round(data.temp - 273.15),
+              description: data.description,
+              icon: data.icon,
+            }),
+          );
+        } catch (error) {
+          setResult('An error has happened');
+          return;
+        }
+      })
+      .then(() => {
+        //Update the result weather info message
+        setResult(
+          `${store.getState().weather.temp} degrees and ${
+            store.getState().weather.description
+          }`,
+        );
+      });
   }
 
   return (
@@ -62,15 +69,6 @@ const SearchWeather = () => {
       <Text style={styles.text}>{result}</Text>
     </View>
   );
-};
-
-const checkInput = (text) => {
-  if(text.split(',').length != 2){
-    console.log('Invalid input');
-    return(
-      <Text style={styles.text}>An error has happened</Text>
-    );
-  }
 };
 
 export default SearchWeather;
@@ -115,8 +113,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     height: 19,
-    left: '42.15%',
-    right: '43.31%',
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: '400',
